@@ -5,30 +5,30 @@
 ### За основу довгого коду було взято метод "calculate_total_price", що обчислює загальну вартість всіх фруктів у магазині. 
 ### Він перебирає кожен фрукт у списку фруктів, викликає метод calculate_price для кожного фрукту і додає отримані ціни до загальної вартості. Після цього він повертає загальну вартість.
 
-class Fruit:
-    def __init__(self, name, quantity):
-        self.name = name
-        self.quantity = quantity
+    class Fruit:
+        def __init__(self, name, quantity):
+            self.name = name
+            self.quantity = quantity
 
-class FruitStore:
-    def __init__(self, fruits):
-        self.fruits = fruits
+    class FruitStore:
+        def __init__(self, fruits):
+            self.fruits = fruits
 
-    def calculate_total_price(self):
-        total_price = 0
-        for fruit in self.fruits:
-            if fruit.name == "apple":
-                total_price += fruit.quantity * 2
-            elif fruit.name == "banana":
-                total_price += fruit.quantity * 1.5
-            elif fruit.name == "orange":
-                total_price += fruit.quantity * 3
+        def calculate_total_price(self):
+            total_price = 0
+            for fruit in self.fruits:
+                if fruit.name == "apple":
+                    total_price += fruit.quantity * 2
+                elif fruit.name == "banana":
+                    total_price += fruit.quantity * 1.5
+                elif fruit.name == "orange":
+                    total_price += fruit.quantity * 3
             
         return total_price
 
-fruits = [Fruit("apple", 2), Fruit("banana", 3), Fruit("orange", 1)]
-store = FruitStore(fruits)
-print(store.calculate_total_price())
+    fruits = [Fruit("apple", 2), Fruit("banana", 3), Fruit("orange", 1)]
+    store = FruitStore(fruits)
+    print(store.calculate_total_price())
 
 
 ### 1. Опис проблеми
@@ -42,47 +42,46 @@ print(store.calculate_total_price())
 ### Замість того, щоб мати умовні перевірки всередині методу calculate_total_price, створюємо окремий метод для кожного типу фруктів. 
 ### Також використовуємо поліморфізм для обчислення ціни кожного типу фруктів.
 
-class Fruit:
-    def __init__(self, name, quantity):
-        self.name = name
-        self.quantity = quantity
+    class Fruit:
+        def __init__(self, name, quantity):
+            self.name = name
+            self.quantity = quantity
 
-    def calculate_price(self):
-        raise NotImplementedError("Підкласи повинні реалізовувати метод calculate_price")
-
-
-class Apple(Fruit):
-    def calculate_price(self):
-        return self.quantity * 2
+        def calculate_price(self):
+            raise NotImplementedError("Підкласи повинні реалізовувати метод calculate_price")
 
 
-class Banana(Fruit):
-    def calculate_price(self):
-        return self.quantity * 1.5
+    class Apple(Fruit):
+        def calculate_price(self):
+            return self.quantity * 2
 
 
-class Orange(Fruit):
-    def calculate_price(self):
-        return self.quantity * 3
+    class Banana(Fruit):
+        def calculate_price(self):
+            return self.quantity * 1.5
 
 
-class FruitStore:
-    def __init__(self, fruits):
-        self.fruits = fruits
-
-    def calculate_total_price(self):
-        total_price = 0
-        for fruit in self.fruits:
-            total_price += fruit.calculate_price()
-        return total_price
+    class Orange(Fruit):
+        def calculate_price(self):
+            return self.quantity * 3
 
 
-fruits = [Apple("apple", 2), Banana("banana", 3), Orange("orange", 1)]
-store = FruitStore(fruits)
-print(store.calculate_total_price())
+    class FruitStore:
+        def __init__(self, fruits):
+            self.fruits = fruits
+
+        def calculate_total_price(self):
+            total_price = 0
+            for fruit in self.fruits:
+                total_price += fruit.calculate_price()
+            return total_price
+
+
+    fruits = [Apple("apple", 2), Banana("banana", 3), Orange("orange", 1)]
+    store = FruitStore(fruits)
+    print(store.calculate_total_price())
 
 
 ### 4. Результати
 ### Тестування оновленого методу показує, що він працює коректно, а також робить код більш розширюваним та зрозумілим. 
 ### Замість довгих умовних перевірок у методі calculate_total_price, застосовано поліморфізм, що дозволяє кожному типу фруктів реалізувати свій власний метод для обчислення ціни. 
-### Це робить код більш гнучким і легким для змін.
